@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'Vuex';
 export default {
     name: 'search',
     data (){
@@ -56,41 +57,21 @@ export default {
                     color: '#000000'
                 }
             },
-            searchList: [//<?>用于替换keyword
-                {
-                    name:'NPM',
-                    url:'https://www.npmjs.com/-/search?text=<?>&from=0&size=10&quality=1.95&popularity=3.3&maintenance=2.05',
-                    style:{
-                        backgroundColor: 'red',
-                        color: '#FFF'
-                    }
-                },
-                {
-                    name:'MDN',
-                    url:'https://developer.mozilla.org/zh-CN/search?q=<?>&topic=apps&topic=html&topic=css&topic=js&topic=api&topic=canvas&topic=svg&topic=webgl&topic=mobile&topic=webdev&topic=http&topic=webext',
-                    style:{
-                        backgroundColor: '#FFF',
-                        color: 'blue'
-                    }
-                },
-                {
-                    name:'CAN I USE',
-                    url:'http://caniuse.com/#search=<?>',
-                    style:{
-                        backgroundColor: '#DB5600',
-                        color: '#FFF'
-                    }
-                }
-            ]
         }
     },
     computed: {
+        ...mapState([
+            "searchList"
+        ]),
         addDisable: function(){
             let urlReg = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
             return this.newItem.name === '' || !urlReg.test(this.newItem.url);
         }
     },
     methods: {
+        ...mapMutations([
+            'ADD_SEARCHITEM', 'REMOVE_SEARCHITEM'
+        ]),
         search(item) {
             let keyword = this.$refs.keyword.value;
             if(keyword === '') return false;
@@ -98,9 +79,8 @@ export default {
             window.open(nUrl);
         },
         confirmAdd(){
-            console.log(this.newItem);
+            this.ADD_SEARCHITEM({item: this.newItem});
             this.showDialog = false;
-            this.searchList.push(this.newItem);
             this.newItem = {
                 name: '',
                 url:'http://',

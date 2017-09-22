@@ -23,20 +23,26 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'Vuex';
 export default {
     name: 'todoList',
     data (){
         return {
-            inputText: '',
-            todoList: []
+            inputText: ''
         }
     },
     computed: {
+        ...mapState([
+            'todoList'
+        ]),
         addDispable: function(){
             return this.inputText === '';
         }
     },
     methods: {
+        ...mapMutations([
+            'ADD_TODOITEM','REMOVE_TODOITEM','TOGGLE_TODOITEM'
+        ]),
         addItem (){
             if(this.inputText === ''){
                 this.$message.warning('You should enter something~~');
@@ -45,17 +51,16 @@ export default {
                     text: this.inputText,
                     status: 'undo'
                 };
-                this.todoList.unshift(newItem);
+                this.ADD_TODOITEM({item: newItem});
                 this.inputText = '';
                 this.$message.success('Add success!');
             }
         },
         toggleItem (index){
-            let target = this.todoList[index];
-            target.status = target.status === 'undo' ? 'done' : 'undo';
+            this.TOGGLE_TODOITEM({index: index});
         },
         removeItem (index){
-            this.todoList.splice(index,1);
+            this.REMOVE_TODOITEM({index: index});
             this.$message.error('Delete success!');
         }
     }

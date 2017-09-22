@@ -10,8 +10,9 @@
 import Clock from './components/clock';
 import Weather from './components/weather';
 import Content from './components/content';
+// import { getStorage, setStorage } from '@/services/storage';
 
-//根组件，包含背景图片和用户信息，组织、布局功能子组件
+//根组件，组织子组件，初始化state
 export default {
   name: 'app',
   data (){
@@ -29,7 +30,6 @@ export default {
       //加载背景图片（通过本地缓存获取）
   },
   methods: {
-
   }
 }
 </script>
