@@ -11,11 +11,18 @@
                 <li :key="-1" class="empty-tip" v-show="todoList.length===0">
                     Is there anything to do?
                 </li>
-                <li  v-for="(item, index) in todoList" :key="index" >
-                    <span :class="{done: item.status === 'done'}" @click="toggleItem(index)">
-                        {{index+1}}. {{item.text}}
+                <li v-for="(item, index) in todoList" :key="index" class="todo-item">
+                    <a class="edit-btn" @click="editItem(index)"><i class="el-icon-edit"></i></a>
+                    <span class="index"> {{index+1}}. </span>
+                    <span v-if="editIndex!==index" class="content"
+                        :class="{done: item.status === 'done'}"
+                        @click="toggleItem(index)">
+                        {{item.text}}
                     </span>
-                    <a href="javascript:;" class="remove-btn" @click="removeItem(index)">
+                    <input type="text" class="edit-input" ref="editInput"
+                        v-else=""
+                        v-model="editContent" @keyup.enter="saveEdit()"/>
+                    <a v-show="editIndex!==index" class="remove-btn" @click="removeItem(index)">
                         <i class="el-icon-close"></i>
                     </a>
                 </li>
@@ -30,7 +37,9 @@ export default {
     name: 'todolist',
     data (){
         return {
-            inputText: ''
+            inputText: '',
+            editContent: '',//二次编辑内容
+            editIndex: -1//编辑状态index
         }
     },
     computed: {
@@ -62,6 +71,21 @@ export default {
         },
         removeItem (index){
             this.REMOVE_TODOITEM({index: index});
+        },
+        editItem (index){
+            if(index === this.editIndex){
+                this.saveEdit();
+            }else{
+                this.editIndex = index;
+                this.editContent = this.todoList[index].text;
+                setTimeout(() => {
+                    this.$refs.editInput[0].focus();
+                },0);
+            }
+        },
+        saveEdit (){
+            this.todoList[this.editIndex].text = this.editContent;
+            this.editIndex = -1;
         }
     }
 }
@@ -88,32 +112,62 @@ export default {
     }
     .list{
         position:relative;
-        padding-right: 20px;
+        padding: 0 20px;
+        li{
+            list-style-type: none;
+        }
         .empty-tip{
             margin-top: 20px;
             text-align: center;
             font-size: 18px;
             color:#fff;
         }
-        li{
-            list-style-type: none;
+        .todo-item{
+            display: flex;
+            justify-content: space-between;
+            align-items:center;
             margin-bottom: 10px;
             transition:all .2s ;
-            span{
+            a{
+                margin-right: 10px;
+                color:#FFF;
+                cursor:pointer;
+                transition: all .2s;
+            }
+            a,span{
                 font-size: 24px;
+            }
+            .edit-btn{
+                margin-right: 10px;
+                font-size: 20px;
+                &:hover{
+                    color:#20a0ff;
+                }
+            }
+            .index{
+                color: #FFF;
+                margin-right: 10px;
+            }
+            .edit-input{
+                flex:1;
+                width: 100%;
+                background: transparent;
+                color:#FFF;
+                font-size: 24px;
+                border-bottom: #FFF solid 1px;
+            }
+            .content{
+                flex:1;
                 color: #FFF;
                 cursor:pointer;
-                word-wrap: break-word;
+                word-break: break-all;
             }
             .done{
                 text-decoration: line-through;
             }
             .remove-btn{
-                float:right;
-                margin-right: 10px;
-                color:#FFF;
-                font-weight: 900;
-                transition: all .2s;
+                margin-left: 10px;
+                font-size: 20px;
                 &:hover{
                     color: crimson;
                 }
