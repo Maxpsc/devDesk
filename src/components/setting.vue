@@ -3,8 +3,10 @@
         <!-- <i class="el-icon-setting setting-btn" ></i> -->
         <span @click="resetState()">RESET</span>
         <span @click="toggleContent()">
-            <i class="el-icon-menu" v-show="!showContent"></i>
-            <i class="el-icon-picture" v-show="showContent"></i>
+            <transition name="no-mode-translate-fade">
+                <i key="menu" class="el-icon-menu" v-if="!showContent"></i>
+                <i key="pic" class="el-icon-picture" v-else></i>
+            </transition>
         </span>
     </div>
 </template>
@@ -45,6 +47,7 @@ export default {
 <style lang="scss" scoped>
 .setting{
     position: fixed;
+    display: flex;
     left:0;bottom:0;
     padding: 14px 20px 14px 20px;
     z-index:100;
@@ -53,16 +56,35 @@ export default {
     color:#FFF;
     -webkit-user-select:none;
     span{
+        display: inline-block;
+        position:relative;
+        min-height:14px;
+        min-width:14px;
         font-size: 14px;
         margin-right: 20px;
         cursor:pointer;
         &:last-child{
             margin-right: 0;
+            font-size: 18px;
         }
     }
+    i{
+        display: inline-block;
+        position:absolute;
+    }
 }
-.setting-transition-enter, .setting-transition-leave-to{
-    left:0;
-    opacity:0;
+.no-mode-translate-fade-enter-active, .no-mode-translate-fade-leave-active {
+  transition: all .6s;
 }
+.no-mode-translate-fade-enter, .no-mode-translate-fade-leave-active {
+  opacity: 0;
+}
+.no-mode-translate-fade-enter {
+  transform: translateY(18px);
+}
+.no-mode-translate-fade-leave-active {
+  transform: translateY(-18px);
+}
+
+
 </style>
