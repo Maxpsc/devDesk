@@ -2,11 +2,26 @@
     <div class="panel search">
         <input type="text" class="desk-input main-search" ref="keyword" placeholder="Enter Keyword">
         <div class="btn-box">
-            <button v-for="(item,index) in searchList" :style="item.style" class="search-btn"   @click="search(item)">
+            <!-- mouseover popover remove-btn -->
+            <el-popover
+                v-for="(item,index) in searchList"
+                :key="index"
+                placement="bottom"
+                width="150"
+                trigger="hover">
+                <p class="remove-tip">
+                    Click to <a @click="removeItem(index)">Remove<i class="el-icon-warning"></i></a>
+                </p>
+                <button slot="reference" :style="item.style" class="search-btn" @click="search(item)">
+                    {{item.name}}
+                </button>
+            </el-popover>
+
+            <!-- <button v-for="(item,index) in searchList" :style="item.style" class="search-btn"   @click="search(item)">
                 {{item.name}}
-            </button>
+            </button> -->
             <el-tooltip class="item" effect="dark" content="Custom your own search-btn" placement="right">
-                <a href="javascript:;" class="add-btn" @click="showDialog = true"><i class="el-icon-plus"></i></a>
+                <a class="add-btn" @click="showDialog = true"><i class="el-icon-plus"></i></a>
             </el-tooltip>
         </div>
         <el-dialog title="Add search-item" :visible.sync="showDialog">
@@ -53,8 +68,8 @@ export default {
                 name: '',
                 url:'http://',
                 style:{
-                    backgroundColor: '#FFFFFF',
-                    color: '#000000'
+                    backgroundColor: '#000000',
+                    color: '#FFFFFF'
                 }
             },
         }
@@ -90,6 +105,11 @@ export default {
                 }
             };
             this.$message.success('Add success!');
+        },
+        removeItem(index) {
+            console.log(index);
+            this.REMOVE_SEARCHITEM({index});
+            this.$message.error("Delete success");
         }
     }
 }
@@ -105,14 +125,18 @@ export default {
         display: block;
         width:70%;
         max-width: 500px;
-        margin: 10px auto 20px;;
+        margin: 10px auto 20px;
+        font-size: 20px;
     }
     .btn-box{
         overflow: auto;
         padding: 0 20px;
-
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
+        a{
+            cursor:pointer;
+        }
         .search-btn{
             display: block;
             position: relative;
@@ -125,6 +149,7 @@ export default {
             outline: none;
             border:none;
             border-radius: 10px;
+            box-shadow: #333 1px 3px 4px 1px;
             cursor:pointer;
             overflow: hidden;
             &:after{
@@ -140,6 +165,7 @@ export default {
                 border-radius: 10px;
             }
             &:hover{
+                box-shadow: #333 0 0 0 0;;
                 &:after{
                     opacity:.5;
                 }
@@ -147,15 +173,15 @@ export default {
         }
         .add-btn{
             display: block;
-            padding:10px 18px;
-            margin: 10px;
+            padding:8px 18px;
+            margin: 8px;
             font-size: 20px;
             border: #8492a6 dotted 2px;
             border-radius: 10px;
-            color:#000;
+            color:#FFF;
             transition:all .2s;
             &:hover{
-                background: rgba(0,0,0,.4);
+                background: rgba(0,0,0,.6);
                 color:#FFF;
                 border: #FFF dotted 2px;
             }
@@ -188,10 +214,12 @@ export default {
         .left{
             float:left;
             width:74%;
+            margin-top: 10px;
         }
         .right{
             float:right;
             width:24%;
+            margin-top: 10px;
             text-align: right;
             .color-label{
                 display: block;
@@ -201,6 +229,20 @@ export default {
             display: block;
             margin-bottom: 8px;
         }
+    }
+}
+.remove-tip{
+    text-align: center;
+    a{
+        display: inline-block;
+        padding:4px 8px;
+        margin: 0 4px;
+        font-weight: bold;
+        color:#FFF;
+        background-color: crimson;
+        border-radius: 4px;
+        cursor:pointer;
+        i{margin-left: 4px;}
     }
 }
 </style>

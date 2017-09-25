@@ -1,4 +1,5 @@
 export const INIT_STATE = "INIT_STATE";
+export const RESET_STATE = "RESET_STATE";
 
 export const ADD_TODOITEM = "ADD_TODOITEM";
 export const REMOVE_TODOITEM = "REMOVE_TODOITEM";
@@ -6,3 +7,5 @@ export const TOGGLE_TODOITEM = "TOGGLE_TODOITEM";
 
 export const ADD_SEARCHITEM = "ADD_SEARCHITEM";
 export const REMOVE_SEARCHITEM = "REMOVE_SEARCHITEM";
+
+export const TOGGLE_CONTENT = "TOGGLE_CONTENT";

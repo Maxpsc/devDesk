@@ -10,7 +10,8 @@
             </el-tooltip>
         </div>
         <transition-group name="list" tag="ul" class="list">
-            <li  v-for="(item,index) in filteredList" :key="index" @click="handleClick(item[0])">
+            <li :key="-1" v-show="loading" class="loading-tip"><i class="el-icon-loading"></i></li>
+            <li v-for="(item,index) in filteredList" :key="index" @click="handleClick(item[0])">
                 <div class="left">
                     <h1>{{item[0]}}</h1>
                     <h5><i class="el-icon-star-on"></i>{{item[2]}}</h5>
@@ -24,14 +25,15 @@
 <script>
 import { getCDNList } from '@/services/fetch';
 export default {
-    name: 'cdnList',
+    name: 'cdnlist',
     data (){
         return {
             inputText: '',
             originList: [],
             list: [],
             sliceNum: 100, //截取前100,否则处理时间太长太大
-            sliceGroup: [10,50,100,500,1000]
+            sliceGroup: [10,50,100,500,1000],
+            loading: true
         }
     },
     computed: {
@@ -48,6 +50,7 @@ export default {
     },
     mounted (){
         getCDNList().then(res => {
+            this.loading = false;
             this.originList = res.data;
         })
     },
@@ -63,46 +66,57 @@ export default {
 <style lang="scss" scoped>
 .cdnlist{
     .input-box{
-        position: absolute;
-        left:50%;top:32px;
-        width:70%;
-        max-width: 500px;
-        transform: translate(-50%,-50%);
+        width:100%;
+        height: 50px;
+        line-height: 50px;
         overflow: hidden;
+        text-align: center;
         input{
-            float:left;
+            display: inline-block;
             width:80%;
+            margin-right: 10px;
         }
         select{
-            float:right;
-            // width:10%;
+            display: inline-block;
             min-width:48px;
             appearance:none;
             -moz-appearance:none;
             -webkit-appearance:none;
-            height: 36px;
+            height: 40px;
             padding:10px;
-            font-size: 16px;
+            color:#FFF;
+            background-color: transparent;
+            font-size: 18px;
             border:none;
             outline: none;
+            vertical-align: sub;
         }
     }
     .list{
         box-sizing: border-box;
         height: 100%;
         overflow-y: auto;
-        padding:40px 0 20px 0;
+        margin: 0;
+        padding:0 0 80px 0;
+        .loading-tip{
+            text-align: center;
+            i{
+                font-size: 20px;
+            }
+        }
         li{
             cursor:pointer;
             transition: all .4s;
             overflow: hidden;
             padding: 12px 0;
+            color: #FFF;
             border-bottom:#000 solid 1px;
             &:last-child{
                 border-bottom: none;
             }
             &:hover{
-                background:rgba(255,255,255,0.6);
+                background:rgba(255,255,255,0.7);
+                color: #000;
             }
             .left{
                 box-sizing: border-box;
@@ -125,6 +139,7 @@ export default {
             p{
                 float:left;
                 width:70%;
+                font-size: 16px;
                 word-wrap: normal;
             }
 

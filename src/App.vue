@@ -1,35 +1,77 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{backgroundImage: `url(${backgroundUrl})`}">
       <clock></clock>
       <weather></weather>
+      <setting></setting>
       <main-content></main-content>
   </div>
 </template>
 
 <script>
-import Clock from './components/clock';
-import Weather from './components/weather';
-import Content from './components/content';
-// import { getStorage, setStorage } from '@/services/storage';
+import clock from '@/components/clock';
+import weather from '@/components/weather';
+import setting from '@/components/setting';
+import MainContent from '@/components/content';
+import { mapState, mapActions } from 'Vuex';
+import { setStorage } from '@/services/storage';
 
 //根组件，组织子组件，初始化state
 export default {
   name: 'app',
   data (){
       return {
-          backgroundUrl: 'http://api.dujin.org/bing/1920.php',
+          backgroundUrl: '',
           loading: true
       };
   },
   components: {
-      'clock': Clock,
-      'weather': Weather,
-      'main-content': Content,
+      clock,
+      weather,
+      setting,
+      MainContent
   },
-  mounted(){
-      //加载背景图片（通过本地缓存获取）
+  computed: {
+      ...mapState(['todoList','favorite','searchList'])
+  },
+  watch: {
+      todoList: {
+          deep: true,
+          handler: function(nList,oList){
+              console.log('list1 change');
+              setStorage({'devDesk_todoList': nList}, () => {
+                //   this.$message.success('save success');
+              });
+          }
+      },
+      favorite: {
+          deep: true,
+          handler: function(nList,oList){
+              console.log('list2 change');
+              setStorage({'devDesk_favorite': nList}, () => {
+                //   this.$message.success('save success');
+              });
+          }
+      },
+      searchList: {
+          deep: true,
+          handler: function(nList,oList){
+              console.log('list3 change');
+              setStorage({'devDesk_searchList': nList}, () => {
+                //   if(oList.length!==0)this.$message.success('save success');
+              });
+          }
+      },
+  },
+  mounted (){
+      //从chromeStorage获取数据
+      this.getChromeStorage();
+      //生成今日壁纸
+      let num = Math.ceil(Math.random() * 51);
+      num = (num >= 10) ? num : '0' + num;
+      this.backgroundUrl = `/static/wallpaper/${num}.jpg`;
   },
   methods: {
+      ...mapActions(['getChromeStorage'])
   }
 }
 </script>
@@ -53,7 +95,8 @@ a{
 
   background-size: cover;
   background-position: center center;
-  background-image: url('http://api.dujin.org/bing/1920.php');
+  /*background-image: url('http://api.dujin.org/bing/1920.php');*/
+  background-image: url('./assets/wallpaper/01.jpg');
 
   display: flex;
   justify-content: center;
@@ -67,9 +110,12 @@ a{
     line-height: 32px;
     font-size: 18px;
     font-weight: bold;
-    background: rgba(255,255,255,0.6);
-    color:#000;
+    background: transparent;
+    color:#FFF;
     text-align: center;
-    border-bottom: #000 solid 2px;
+    border-bottom: #FFF solid 2px;
+}
+input::-webkit-input-placeholder{
+    color: rgba(255,255,255,.7);
 }
 </style>

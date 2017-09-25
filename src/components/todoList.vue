@@ -6,26 +6,28 @@
                 @keyup.enter="addItem"
             />
         </div>
-        <transition-group name="list" tag="ul" class="list">
-            <li :key="-1" class="empty-tip" v-show="todoList.length===0">
-                Is there nothing to do?
-            </li>
-            <li  v-for="(item, index) in todoList" :key="index" >
-                <span :class="{done: item.status === 'done'}" @click="toggleItem(index)">
-                    {{index+1}}. {{item.text}}
-                </span>
-                <a href="javascript:;" class="remove-btn" @click="removeItem(index)">
-                    <i class="el-icon-close"></i>
-                </a>
-            </li>
-        </transition-group>
+        <div class="list-box">
+            <transition-group name="list" tag="ul" class="list">
+                <li :key="-1" class="empty-tip" v-show="todoList.length===0">
+                    Is there anything to do?
+                </li>
+                <li  v-for="(item, index) in todoList" :key="index" >
+                    <span :class="{done: item.status === 'done'}" @click="toggleItem(index)">
+                        {{index+1}}. {{item.text}}
+                    </span>
+                    <a href="javascript:;" class="remove-btn" @click="removeItem(index)">
+                        <i class="el-icon-close"></i>
+                    </a>
+                </li>
+            </transition-group>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'Vuex';
 export default {
-    name: 'todoList',
+    name: 'todolist',
     data (){
         return {
             inputText: ''
@@ -53,7 +55,6 @@ export default {
                 };
                 this.ADD_TODOITEM({item: newItem});
                 this.inputText = '';
-                this.$message.success('Add success!');
             }
         },
         toggleItem (index){
@@ -61,7 +62,6 @@ export default {
         },
         removeItem (index){
             this.REMOVE_TODOITEM({index: index});
-            this.$message.error('Delete success!');
         }
     }
 }
@@ -79,6 +79,13 @@ export default {
             font-size: 24px;
         }
     }
+    .list-box{
+        box-sizing: border-box;
+        width:100%;
+        height:100%;
+        padding-bottom:50px;
+        overflow-y: auto;
+    }
     .list{
         position:relative;
         padding-right: 20px;
@@ -86,13 +93,15 @@ export default {
             margin-top: 20px;
             text-align: center;
             font-size: 18px;
-            color:#555;
+            color:#fff;
         }
         li{
             list-style-type: none;
+            margin-bottom: 10px;
             transition:all .2s ;
             span{
                 font-size: 24px;
+                color: #FFF;
                 cursor:pointer;
                 word-wrap: break-word;
             }
@@ -102,7 +111,8 @@ export default {
             .remove-btn{
                 float:right;
                 margin-right: 10px;
-                color:#000;
+                color:#FFF;
+                font-weight: 900;
                 transition: all .2s;
                 &:hover{
                     color: crimson;

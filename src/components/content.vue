@@ -1,5 +1,6 @@
 <template lang="html">
-    <div id="main">
+    <transition name="fade-content">
+    <div id="main" v-show="showContent">
         <div class="header">
             <span class="tab" :class="{active: tabIndex===0}" @click="handleTab(0)">TodoList</span>
             <span class="tab" :class="{active: tabIndex===1}" @click="handleTab(1)">Favorite</span>
@@ -15,14 +16,15 @@
             </transition-group>
         </div>
     </div>
+</transition>
 </template>
 
 <script>
-import todolist from './todoList';
+import todolist from './todolist';
 import favorite from './favorite';
-import cdnlist from './cdnList';
+import cdnlist from './cdnlist';
 import search from './search';
-
+import { mapState } from 'Vuex';
 //中央导航组件，负责路由子组件
 export default {
     name: 'main',
@@ -30,6 +32,9 @@ export default {
         return {
             tabIndex: 0
         }
+    },
+    computed: {
+        ...mapState(['showContent'])
     },
     components:{
         todolist,
@@ -51,21 +56,24 @@ export default {
     box-sizing: border-box;
     width:85%;
     max-width: 900px;
-    height:60%;
-    background-color: rgba(210, 210, 210, 0.4);
+    height:56%;
+    margin-top: 40px;
+    background: -webkit-radial-gradient(50% 10%, farthest-corner, rgba(0,0,0,.5),rgba(0,0,0,.25), transparent);
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     .header{
         display: flex;
         height:50px;
         margin-top: -50px;
+        -webkit-user-select:none;
         .tab{
             flex:1;
             line-height: 50px;
             text-align: center;
             font-size: 20px;
             font-weight: bold;
-            background-color: rgba(255,255,255,0.8);
+            background-color: rgba(0,0,0,.8);
+            color:#FFF;
             cursor:pointer;
             transition:all .2s;
             &:first-child{
@@ -75,7 +83,7 @@ export default {
                 border-top-right-radius:20px;
             }
             &.active,&:hover{
-                background-color: rgba(210, 210, 210, 0.4);
+                background-color: rgba(0, 0, 0, .45);
                 color:#FFF;
             }
         }
@@ -84,12 +92,15 @@ export default {
 .fade-enter-active, .fade-leave-active {
   transition: all .2s ease;
 }
-.fade-enter, .fade-leave-to{
+.fade-enter, .fade-leave-to, .fade-content-enter, .fade-content-leave-to{
   opacity: 0;
 }
 .container{
     position:relative;
     height:100%;
+}
+.fade-content-enter-active, .fade-content-leave-active {
+  transition: all .4s ease-out;
 }
 //for each child-component
 .panel{
@@ -100,7 +111,6 @@ export default {
     // padding:10px;
     height:100%;
     overflow: hidden;
-    background-color: rgba(255,255,255,0.6);
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }

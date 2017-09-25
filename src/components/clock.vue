@@ -32,9 +32,12 @@ export default {
 <style lang="scss" scoped>
 #clock{
     position:fixed;
-    top:14px;
-    left:20px;
+    top:0;left:0;
+    padding: 14px 20px 14px 20px;
     z-index:100;
+    // background: rgba(0,0,0,.1);
+    background: -webkit-radial-gradient(0% 0%, rgba(0,0,0,.4),rgba(0,0,0,.2), rgba(0,0,0,0));
+    border-bottom-right-radius: 20px;
 }
 h1,h2{
     color:#FFF;
