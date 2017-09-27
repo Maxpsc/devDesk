@@ -1,6 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { RESET_STATE, INIT_STATE, ADD_TODOITEM, REMOVE_TODOITEM, TOGGLE_TODOITEM, ADD_SEARCHITEM, REMOVE_SEARCHITEM, TOGGLE_CONTENT } from './mutation_type.js';
+import {
+    RESET_STATE, INIT_STATE,
+    ADD_TODOITEM, REMOVE_TODOITEM, TOGGLE_TODOITEM,
+    ADD_SEARCHITEM, REMOVE_SEARCHITEM,
+    ADD_FAVORITEITEM, REMOVE_FAVORITEITEM,
+    TOGGLE_CONTENT
+} from './mutation_type.js';
 import { getStorage } from '@/services/storage';
 
 Vue.use(Vuex);
@@ -30,25 +36,64 @@ const defaultSearchList = [//<?>用于替换keyword
         }
     }
 ];
-
+const defaultFavorite = [
+    {
+        label:'FE Learning',
+        children:[
+            {
+                label:'Stackoverflow',
+                url:'http://www.stackoverflow.com'
+            },
+            {
+                label:'ES6入门',
+                url:'http://es6.ruanyifeng.com/#docs/intro'
+            }
+        ]
+    },
+    {
+        label:'Daily Life',
+        children:[
+            {
+                label:'Search Engine',
+                children:[
+                    {
+                        label:'Chrome',
+                        url:'http://www.chrome.com'
+                    },
+                    {
+                        label:'Baidu',
+                        url:'http://www.baidu.com'
+                    },
+                    {
+                        label:'Bing',
+                        url:'http://www.bing.com'
+                    }
+                ]
+            },
+            {
+                label:'Github',
+                url:'http://www.github.com'
+            }
+        ]
+    }
+];
 export default new Vuex.Store({
     state: {
         todoList: [],
-        favorite: [],
+        favoriteList: [...defaultFavorite],
         searchList: [...defaultSearchList],
         showContent: true
     },
     getters: {
-
     },
     actions: {
         //异步获取数据
         getChromeStorage ({commit}) {
-            getStorage(["devDesk_todoList","devDesk_favorite","devDesk_searchList"], (res) => {
+            getStorage(["devDesk_todoList","devDesk_favoriteList","devDesk_searchList"], (res) => {
                 console.log(res);
                 commit(INIT_STATE ,{
                     todoList: res.devDesk_todoList,
-                    favorite: res.devDesk_favorite,
+                    favoriteList: res.devDesk_favoriteList,
                     searchList: res.devDesk_searchList
                 });
             });
@@ -60,15 +105,15 @@ export default new Vuex.Store({
         },
         [RESET_STATE](state, payload){
             state.todoList = [];
-            state.favorite = [];
+            state.favoriteList = [...defaultFavorite];
             state.searchList = [...defaultSearchList];
         },
         [INIT_STATE](state, payload){
             if(payload.todoList && payload.todoList.length !== 0){
                 state.todoList = payload.todoList;
             }
-            if(payload.favorite && payload.favorite.length !== 0){
-                state.favorite = payload.favorite;
+            if(payload.favoriteList && payload.favoriteList.length !== 0){
+                state.favoriteList = payload.favoriteList;
             }
             if(payload.searchList && payload.searchList.length !== 0){
                 state.searchList = payload.searchList;
@@ -89,6 +134,38 @@ export default new Vuex.Store({
         },
         [REMOVE_SEARCHITEM](state, payload){
             state.searchList.splice(payload.index, 1);
+        },
+        [ADD_FAVORITEITEM](state, payload){
+            let { type, url, label, pos } = payload.content;
+            let content = null; let funcBody = '';
+            if(type === 'bookmark'){
+                content = { label, url };
+            }else{
+                content = { label, children: [] };
+            }
+            if(pos === '0'){
+                funcBody = `list.push(item)`;
+            }else{
+                let posList = pos.slice(2).split(',');
+                funcBody = `list[${posList.join('].children[')}].children.push(item)`;
+            }
+            //list.push() 0
+            //list[0].children.push() 0,0
+            //list[0].children[0].children.push() 0,0,0
+            new Function('list','item',funcBody).call(this, state.favoriteList, content);
+        },
+        [REMOVE_FAVORITEITEM](state, payload){
+            let posList = payload.pos.slice(2).split(',');
+            let index = posList.pop();
+            let funcBody = '';
+            if(posList.length === 0){
+                funcBody = `list.splice(${index},1)`;
+            }else{
+                funcBody = `list[${posList.join('].children[')}].children.splice(${index},1)`;
+            }
+            //list.splice(0,1) 0
+            //list[0].children.splice(0,1) 0,0
+            new Function('list',funcBody).call(this, this.state.favoriteList);
         }
     }
 });

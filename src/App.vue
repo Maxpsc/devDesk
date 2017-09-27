@@ -3,6 +3,7 @@
       <clock></clock>
       <weather></weather>
       <setting></setting>
+      <copyright></copyright>
       <main-content></main-content>
   </div>
 </template>
@@ -11,13 +12,14 @@
 import clock from '@/components/clock';
 import weather from '@/components/weather';
 import setting from '@/components/setting';
+import copyright from '@/components/copyright';
 import MainContent from '@/components/content';
 import { mapState, mapActions } from 'Vuex';
 import { setStorage } from '@/services/storage';
 
 //根组件，组织子组件，初始化state
 export default {
-  name: 'app',
+  name: 'mainApp',
   data (){
       return {
           backgroundUrl: '',
@@ -28,10 +30,11 @@ export default {
       clock,
       weather,
       setting,
+      copyright,
       MainContent
   },
   computed: {
-      ...mapState(['todoList','favorite','searchList'])
+      ...mapState(['todoList','favoriteList','searchList'])
   },
   watch: {
       todoList: {
@@ -43,11 +46,11 @@ export default {
               });
           }
       },
-      favorite: {
+      favoriteList: {
           deep: true,
           handler: function(nList,oList){
               console.log('list2 change');
-              setStorage({'devDesk_favorite': nList}, () => {
+              setStorage({'devDesk_favoriteList': nList}, () => {
                 //   this.$message.success('save success');
               });
           }
@@ -96,8 +99,6 @@ a{
   background-size: cover;
   background-position: center center;
   /*background-image: url('http://api.dujin.org/bing/1920.php');*/
-  background-image: url('./assets/wallpaper/01.jpg');
-
   display: flex;
   justify-content: center;
   align-items: center;

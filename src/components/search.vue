@@ -79,7 +79,7 @@ export default {
             "searchList"
         ]),
         addDisable: function(){
-            let urlReg = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
+            const urlReg = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
             return this.newItem.name === '' || !urlReg.test(this.newItem.url);
         }
     },
