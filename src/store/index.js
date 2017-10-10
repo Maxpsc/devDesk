@@ -108,7 +108,6 @@ export default new Vuex.Store({
             state.searchList = [...defaultSearchList];
         },
         [INIT_STATE](state, payload){
-            console.log(111);
             if(payload.todoList && payload.todoList.length !== 0){
                 state.todoList = payload.todoList;
             }

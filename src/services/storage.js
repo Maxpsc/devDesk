@@ -19,6 +19,7 @@ export function setFileReader(file,callback){
     fileReader.onload = function(event){
         callback(event);
     };
-    fileReader.readAsBinaryString(file);
+    fileReader.readAsText(file, 'UTF-8');
+    // fileReader.readAsBinaryString(file);
     //fileReader.readAsDataURL(file);//base64
 }

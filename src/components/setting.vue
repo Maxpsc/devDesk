@@ -109,7 +109,7 @@ export default {
         margin-right: 20px;
         cursor:pointer;
         &:hover{
-            color: #999;
+            color: #aaa;
         }
         &:last-child{
             margin-right: 0;
@@ -121,8 +121,7 @@ export default {
         position:absolute;
     }
     #importInput{
-        display: inline-block;
-        width:0;
+        display: none;
         opacity:0;
     }
 }
