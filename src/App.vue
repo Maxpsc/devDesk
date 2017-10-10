@@ -40,7 +40,7 @@ export default {
       todoList: {
           deep: true,
           handler: function(nList,oList){
-              console.log('list1 change');
+            //   console.log('list1 change');
               setStorage({'devDesk_todoList': nList}, () => {
                 //   this.$message.success('save success');
               });
@@ -49,7 +49,7 @@ export default {
       favoriteList: {
           deep: true,
           handler: function(nList,oList){
-              console.log('list2 change');
+            //   console.log('list2 change');
               setStorage({'devDesk_favoriteList': nList}, () => {
                 //   this.$message.success('save success');
               });
@@ -58,7 +58,7 @@ export default {
       searchList: {
           deep: true,
           handler: function(nList,oList){
-              console.log('list3 change');
+            //   console.log('list3 change');
               setStorage({'devDesk_searchList': nList}, () => {
                 //   if(oList.length!==0)this.$message.success('save success');
               });
@@ -98,7 +98,6 @@ a{
 
   background-size: cover;
   background-position: center center;
-  /*background-image: url('http://api.dujin.org/bing/1920.php');*/
   display: flex;
   justify-content: center;
   align-items: center;

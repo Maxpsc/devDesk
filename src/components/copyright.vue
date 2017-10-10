@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="copyright">
-        <span>Copyright © 2017 Psc. All rights reserved. </span>
+        <span>Copyright © 2017 PSC. All rights reserved. </span>
     </div>
 </template>
 
@@ -25,5 +25,4 @@ export default {
         font-size: 12px;
     }
 }
-
 </style>

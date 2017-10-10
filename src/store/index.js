@@ -90,7 +90,6 @@ export default new Vuex.Store({
         //异步获取数据
         getChromeStorage ({commit}) {
             getStorage(["devDesk_todoList","devDesk_favoriteList","devDesk_searchList"], (res) => {
-                console.log(res);
                 commit(INIT_STATE ,{
                     todoList: res.devDesk_todoList,
                     favoriteList: res.devDesk_favoriteList,
@@ -109,6 +108,7 @@ export default new Vuex.Store({
             state.searchList = [...defaultSearchList];
         },
         [INIT_STATE](state, payload){
+            console.log(111);
             if(payload.todoList && payload.todoList.length !== 0){
                 state.todoList = payload.todoList;
             }
@@ -117,6 +117,9 @@ export default new Vuex.Store({
             }
             if(payload.searchList && payload.searchList.length !== 0){
                 state.searchList = payload.searchList;
+            }
+            if(payload.showContent !== undefined && typeof payload.showContent === 'boolean'){
+                state.showContent = payload.showContent;
             }
         },
         [ADD_TODOITEM](state, payload){

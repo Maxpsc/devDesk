@@ -2,6 +2,7 @@
     <div id="weather">
         <h1 class="loading-tip" v-show="loading"><i class="el-icon-loading"></i>locating...</h1>
         <h1>{{country}} {{city}}</h1>
+        <h2 v-show="error!==''">{{error}}</h2>
     </div>
 </template>
 
@@ -17,6 +18,7 @@ export default {
             currentWeather: {},
             weatherList: '',
             loading: true,
+            error: ''
         }
     },
     mounted (){
@@ -26,10 +28,12 @@ export default {
             this.loading = false;
             this.country = res.regeocode.addressComponent.country;
             this.city = res.regeocode.addressComponent.province;
-
+            this.error = '';
             // this.getWeather(this.city);
         })
         .catch((err) => {
+            this.loading = false;
+            this.error = 'Network error';
             console.log(err);
         })
     },
@@ -65,5 +69,6 @@ export default {
         }
     }
     h1{font-size: 16px;}
+    h2{font-size: 12px;}
 }
 </style>
