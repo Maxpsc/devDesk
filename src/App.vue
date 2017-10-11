@@ -1,7 +1,7 @@
 <template>
   <div id="app" :style="{backgroundImage: `url(${backgroundUrl})`}">
       <clock></clock>
-      <weather></weather>
+      <!-- <weather></weather> -->
       <setting></setting>
       <copyright></copyright>
       <main-content></main-content>

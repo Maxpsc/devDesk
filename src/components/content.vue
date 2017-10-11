@@ -89,6 +89,11 @@ export default {
         }
     }
 }
+@media screen and (max-width: 480px){
+    .header .tab{
+        font-size: 18px!important;
+    }
+}
 .fade-enter-active, .fade-leave-active {
   transition: all .2s ease;
 }

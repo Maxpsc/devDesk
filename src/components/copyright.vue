@@ -25,4 +25,9 @@ export default {
         font-size: 12px;
     }
 }
+@media screen and (max-width:480px){
+    .copyright{
+        width:100%;
+    }
+}
 </style>

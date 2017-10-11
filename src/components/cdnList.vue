@@ -126,6 +126,7 @@ export default {
                 max-width:270px;;
                 h1{
                     font-size: 20px;
+                    word-wrap: break-word;
                 }
                 h5{
                     font-size: 14px;
@@ -144,6 +145,11 @@ export default {
             }
 
         }
+    }
+}
+@media screen and (max-width: 480px){
+    .desk-input{
+        width:60%!important;
     }
 }
 .list-enter, .list-leave-to{

@@ -125,7 +125,14 @@ export default {
         opacity:0;
     }
 }
-
+@media screen and (max-width: 480px){
+    .setting{
+        width:100%;
+        box-sizing: border-box;
+        bottom:48px;
+        justify-content: center;
+    }
+}
 .no-mode-translate-fade-enter-active, .no-mode-translate-fade-leave-active {
   transition: all .6s;
 }
