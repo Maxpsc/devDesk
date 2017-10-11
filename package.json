@@ -1,9 +1,8 @@
 {
   "name": "dev-desk",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "A SPA provides convenience for searching apis, documents during development.",
   "author": "Psc",
-  "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
