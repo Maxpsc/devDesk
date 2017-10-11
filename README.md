@@ -1,13 +1,10 @@
 # dev-Desk
 
-[![NPM version][npm-image]][npm-url]
-
 > A SPA provides convenience for searching apis, documents during development.
+## Intro
+A SPA provides convenience for searching apis, documents during development.It is built with [vue2.4](https://vuejs.org) + [vuex](https://vuex.vuejs.org) + [element-ui](http://element.eleme.io/).  
 
 You can install it as a [chrome extension](https://chrome.google.com/webstore/detail/devdesk/ijbokdmghppinihgapogpogobdcicmea)
-
-## Screenshoot
-![image](https://github.com/Maxpsc/devDesk/blob/master/screenshots/lx_20170928150830.png)
 
 ## Basic functions
 * TodoList
@@ -16,6 +13,9 @@ You can install it as a [chrome extension](https://chrome.google.com/webstore/de
 * Enter keyword to go to customized website
 * Import, export data with JSON file (need chromeStorage)
 * Clock, geolocation, weather forecast, etc.
+## Screenshoot
+![image](https://github.com/Maxpsc/devDesk/blob/master/screenshots/lx_20170928150830.png)
+
 ## Build Setup
 
 ``` bash
