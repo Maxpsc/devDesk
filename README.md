@@ -1,7 +1,21 @@
-# dev-desk
+# dev-Desk
 
-> A Vue.js project
+[![NPM version][npm-image]][npm-url]
 
+> A SPA provides convenience for searching apis, documents during development.
+
+You can install it as a [chrome extension](https://chrome.google.com/webstore/detail/devdesk/ijbokdmghppinihgapogpogobdcicmea)
+
+## Screenshoot
+![image](https://github.com/Maxpsc/devDesk/blob/master/screenshots/lx_20170928150830.png)
+
+## Basic functions
+* TodoList
+* Customized bookmark list
+* CDN list (search, filter)
+* Enter keyword to go to customized website
+* Import, export data with JSON file (need chromeStorage)
+* Clock, geolocation, weather forecast, etc.
 ## Build Setup
 
 ``` bash
