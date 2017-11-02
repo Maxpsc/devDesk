@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {
     RESET_STATE, INIT_STATE,
-    ADD_TODOITEM, REMOVE_TODOITEM, TOGGLE_TODOITEM,
+    ADD_TODOITEM, REMOVE_TODOITEM, TOGGLE_TODOITEM, UPDATE_TODOLIST,
     ADD_SEARCHITEM, REMOVE_SEARCHITEM,
     ADD_FAVORITEITEM, REMOVE_FAVORITEITEM,
     TOGGLE_CONTENT
@@ -120,6 +120,9 @@ export default new Vuex.Store({
             if(payload.showContent !== undefined && typeof payload.showContent === 'boolean'){
                 state.showContent = payload.showContent;
             }
+        },
+        [UPDATE_TODOLIST](state, payload){
+            state.todoList = payload.slice(0);
         },
         [ADD_TODOITEM](state, payload){
             state.todoList.unshift(payload.item);

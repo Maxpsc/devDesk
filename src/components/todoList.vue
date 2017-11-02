@@ -7,32 +7,35 @@
             />
         </div>
         <div class="list-box">
-            <transition-group name="list" tag="ul" class="list">
-                <li :key="-1" class="empty-tip" v-show="todoList.length===0">
-                    Is there anything to do?
-                </li>
-                <li v-for="(item, index) in todoList" :key="index" class="todo-item">
-                    <a class="edit-btn" @click="editItem(index)"><i class="el-icon-edit"></i></a>
-                    <span class="index"> {{index+1}}. </span>
-                    <span v-if="editIndex!==index" class="content"
-                        :class="{done: item.status === 'done'}"
-                        @click="toggleItem(index)">
-                        {{item.text}}
-                    </span>
-                    <input type="text" class="edit-input" ref="editInput"
-                        v-else=""
-                        v-model="editContent" @keyup.enter="saveEdit()"/>
-                    <a v-show="editIndex!==index" class="remove-btn" @click="removeItem(index)">
-                        <i class="el-icon-close"></i>
-                    </a>
-                </li>
-            </transition-group>
+            <p class="empty-tip" v-show="todoList.length===0">
+                Is there anything to do?
+            </p>
+            <draggable v-model="todoList">
+                <transition-group name="list" tag="ul" class="list">
+                    <li v-for="(item, index) in todoList" :key="index" class="todo-item">
+                        <a class="edit-btn" @click="editItem(index)"><i class="el-icon-edit"></i></a>
+                        <span class="index"> {{index+1}}. </span>
+                        <span v-if="editIndex!==index" class="content"
+                            :class="{done: item.status === 'done'}"
+                            @click="toggleItem(index)">
+                            {{item.text}}
+                        </span>
+                        <input type="text" class="edit-input" ref="editInput"
+                            v-else=""
+                            v-model="editContent" @keyup.enter="saveEdit()"/>
+                        <a v-show="editIndex!==index" class="remove-btn" @click="removeItem(index)">
+                            <i class="el-icon-close"></i>
+                        </a>
+                    </li>
+                </transition-group>
+            </draggable>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'Vuex';
+import draggable from 'vuedraggable';
+import { mapMutations } from 'Vuex';
 export default {
     name: 'todolist',
     data (){
@@ -42,12 +45,17 @@ export default {
             editIndex: -1//编辑状态index
         }
     },
+    components:{
+        draggable
+    },
     computed: {
-        ...mapState([
-            'todoList'
-        ]),
-        addDispable: function(){
-            return this.inputText === '';
+        todoList: {
+            get() {
+                return this.$store.state.todoList;
+            },
+            set(value) {
+                this.$store.commit('UPDATE_TODOLIST', value)
+            }
         }
     },
     methods: {
@@ -110,17 +118,17 @@ export default {
         padding-bottom:50px;
         overflow-y: auto;
     }
+    .empty-tip{
+        margin-top: 20px;
+        text-align: center;
+        font-size: 18px;
+        color:#fff;
+    }
     .list{
         position:relative;
         padding: 0 20px;
         li{
             list-style-type: none;
-        }
-        .empty-tip{
-            margin-top: 20px;
-            text-align: center;
-            font-size: 18px;
-            color:#fff;
         }
         .todo-item{
             display: flex;
