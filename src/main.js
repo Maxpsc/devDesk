@@ -17,18 +17,19 @@ const app = new Vue({
     components: { App }
 });
 
-(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))
-
-tpwidget("init", {
-    "flavor": "bubble",
-    "location": "WX4FBXXFKE4F",
-    "geolocation": "enabled",
-    "position": "top-right",
-    "margin": "10px 10px",
-    "language": "auto",
-    "unit": "c",
-    "theme": "chameleon",
-    "uid": "U757FFE87F",
-    "hash": "61b718d3952485995831a0a5995f9081"
-});
-tpwidget("show");
+//心知天气插件， 受限于chrome CSP策略，暂时注释掉
+// (function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))
+//
+// tpwidget("init", {
+//     "flavor": "bubble",
+//     "location": "WX4FBXXFKE4F",
+//     "geolocation": "enabled",
+//     "position": "top-right",
+//     "margin": "10px 10px",
+//     "language": "auto",
+//     "unit": "c",
+//     "theme": "chameleon",
+//     "uid": "U757FFE87F",
+//     "hash": "61b718d3952485995831a0a5995f9081"
+// });
+// tpwidget("show");
